@@ -11,13 +11,12 @@ import (
 
 func main() {
 
-	//db = db_conections.NewPostgres01()
-
 	app := fiber.New()
 
 	// Student Based APIs
 	app.Get("/student/:id", handlers.HandleGetStudent)
 	app.Get("/student", handlers.HandleGetStudents)
+	app.Get("/student-of/:id", handlers.HandleGetTeacherOfAStudent)
 
 	// Teacher Based APIs
 	app.Get("/teacher/:id", handlers.HandleGetTeacher)

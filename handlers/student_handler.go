@@ -42,3 +42,20 @@ func HandleGetStudents(c *fiber.Ctx) error {
 
 	return err
 }
+
+func HandleGetTeacherOfAStudent(c *fiber.Ctx) error {
+	var teacher models.Teacher
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return err
+	}
+
+	teacher, err = database.GetTeacherByStudentId(int64(id))
+
+	err = c.JSON(teacher)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -4,7 +4,6 @@ import (
 	"Education-System-Go/db_conections"
 	"Education-System-Go/models"
 	"database/sql"
-	"fmt"
 )
 
 var db *sql.DB
@@ -34,8 +33,6 @@ func GetStudentByID(id int64) (models.Student, error) {
 	if err := rows.Err(); err != nil {
 		return models.Student{}, err
 	}
-
-	fmt.Printf("%+v", student)
 
 	return student, nil
 }
@@ -70,7 +67,55 @@ func GetStudents() ([]models.Student, error) {
 		}
 	}
 
-	fmt.Printf("%+v", students)
-
 	return students, nil
+}
+
+func GetTeacherByStudentId(id int64) (models.Teacher, error) {
+	db = db_conections.NewPostgres01()
+	// Query to get the data of the student
+	query := `
+	SELECT *
+	FROM students
+	WHERE id = $1`
+
+	rows, err := db.Query(query, id)
+	if err != nil {
+		return models.Teacher{}, err
+	}
+	var student models.Student
+	for rows.Next() {
+
+		err := rows.Scan(&id, &student.Name, &student.LastName, &student.TeacherId, &student.Email, &student.Password)
+		if err != nil {
+			return models.Teacher{}, err
+		}
+	}
+
+	if err := rows.Err(); err != nil {
+		return models.Teacher{}, err
+	}
+
+	var teacherId int64 = student.TeacherId
+
+	query = `
+	SELECT *
+	FROM teachers
+	WHERE id = $1;
+`
+	rows, err = db.Query(query, teacherId)
+
+	var teacher models.Teacher
+	for rows.Next() {
+
+		err := rows.Scan(&id, &teacher.Name, &teacher.LastName, &teacher.Email, &teacher.Password)
+		if err != nil {
+			return models.Teacher{}, err
+		}
+	}
+
+	if err := rows.Err(); err != nil {
+		return models.Teacher{}, err
+	}
+
+	return teacher, nil
 }
