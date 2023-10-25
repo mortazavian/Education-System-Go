@@ -9,7 +9,7 @@ import (
 
 var db *sql.DB
 
-func GetUserByID(id int64) (models.Student, error) {
+func GetStudentByID(id int64) (models.Student, error) {
 	db = db_conections.NewPostgres01()
 	query := `
 	SELECT *

@@ -17,7 +17,7 @@ func main() {
 
 	app.Get("/student/:id", handlers.HandleGetStudent)
 	app.Get("/teacher/:id", handlers.HandleGetTeacher)
-	app.Get("/student", handlers.HandleGetUsers)
+	app.Get("/student", handlers.HandleGetStudents)
 
 	err := app.Listen(":8000")
 	if err != nil {

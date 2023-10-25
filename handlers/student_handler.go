@@ -14,7 +14,7 @@ func HandleGetStudent(c *fiber.Ctx) error {
 
 	fmt.Println("the id is:", id)
 
-	student, err := database.GetUserByID(int64(id))
+	student, err := database.GetStudentByID(int64(id))
 	if err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func HandleGetStudent(c *fiber.Ctx) error {
 	return err
 }
 
-func HandleGetUsers(c *fiber.Ctx) error {
+func HandleGetStudents(c *fiber.Ctx) error {
 	var students []models.Student
 
 	students, err := database.GetStudents()
