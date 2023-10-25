@@ -39,3 +39,38 @@ func GetUserByID(id int64) (models.Student, error) {
 
 	return student, nil
 }
+
+func GetStudents() ([]models.Student, error) {
+	db = db_conections.NewPostgres01()
+	query := `
+	SELECT *
+	FROM students`
+
+	rows, err := db.Query(query)
+	if err != nil {
+		return []models.Student{}, err
+	}
+	defer rows.Close()
+
+	var (
+		students []models.Student
+		student  models.Student
+		id       int
+	)
+	for rows.Next() {
+
+		err := rows.Scan(&id, &student.Name, &student.LastName, &student.TeacherId, &student.Email, &student.Password)
+		if err != nil {
+			return []models.Student{}, err
+		}
+		students = append(students, student)
+
+		if err := rows.Err(); err != nil {
+			return []models.Student{}, err
+		}
+	}
+
+	fmt.Printf("%+v", students)
+
+	return students, nil
+}

@@ -2,12 +2,13 @@ package handlers
 
 import (
 	"Education-System-Go/database"
+	"Education-System-Go/models"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"strconv"
 )
 
-func HandleGetUser(c *fiber.Ctx) error {
+func HandleGetStudent(c *fiber.Ctx) error {
 
 	id, err := strconv.Atoi(c.Params("id"))
 
@@ -18,15 +19,23 @@ func HandleGetUser(c *fiber.Ctx) error {
 		return err
 	}
 
-	//res, err := json.Marshal(student)
-	//if err != nil {
-	//	return err
-	//}
-
-	//w.Header().Set("Content-Type", "application/json")
-	//json.NewEncoder(w).Encode(res)
-
 	err = c.JSON(student)
+	if err != nil {
+		return err
+	}
+
+	return err
+}
+
+func HandleGetUsers(c *fiber.Ctx) error {
+	var students []models.Student
+
+	students, err := database.GetStudents()
+	if err != nil {
+		return err
+	}
+
+	err = c.JSON(students)
 	if err != nil {
 		return err
 	}
