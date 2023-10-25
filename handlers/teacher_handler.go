@@ -22,7 +22,7 @@ func HandleGetTeacher(c *fiber.Ctx) error {
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func HandleGetTeachers(c *fiber.Ctx) error {
@@ -38,6 +38,23 @@ func HandleGetTeachers(c *fiber.Ctx) error {
 		return err
 	}
 
-	return err
+	return nil
+
+}
+
+func HandleGetStudentsByTeacherId(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
+
+	studentsOfTheTeacher, err := database.GetStudentsByTeacherId(int64(id))
+
+	if err != nil {
+		return err
+	}
+	err = c.JSON(studentsOfTheTeacher)
+	if err != nil {
+		return err
+	}
+
+	return nil
 
 }

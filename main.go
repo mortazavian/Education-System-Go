@@ -1,7 +1,7 @@
 package main
 
-// get all student/ teachers
-// return student of a teacher
+// get all student/ teachers --> DONE
+// return student of a teacher --> DONE
 // return teacher of a student
 
 import (
@@ -22,6 +22,7 @@ func main() {
 	// Teacher Based APIs
 	app.Get("/teacher/:id", handlers.HandleGetTeacher)
 	app.Get("/teacher", handlers.HandleGetTeachers)
+	app.Get("/teacher-of/:id", handlers.HandleGetStudentsByTeacherId)
 
 	err := app.Listen(":8000")
 	if err != nil {

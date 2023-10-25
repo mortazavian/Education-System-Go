@@ -72,3 +72,38 @@ func GetTeachers() ([]models.Teacher, error) {
 	return teachers, nil
 
 }
+
+func GetStudentsByTeacherId(id int64) ([]models.Student, error) {
+	db = db_conections.NewPostgres01()
+	query := `
+	SELECT *
+	FROM students
+	WHERE teacher_fk =  $1
+`
+	rows, err := db.Query(query, id)
+	if err != nil {
+		return []models.Student{}, err
+	}
+	defer rows.Close()
+
+	var (
+		students []models.Student
+		student  models.Student
+	)
+
+	for rows.Next() {
+
+		err := rows.Scan(&id, &student.Name, &student.LastName, &student.TeacherId, &student.Email, &student.Password)
+		if err != nil {
+			return []models.Student{}, err
+		}
+		students = append(students, student)
+	}
+
+	if err := rows.Err(); err != nil {
+		return []models.Student{}, err
+	}
+
+	return students, nil
+
+}
