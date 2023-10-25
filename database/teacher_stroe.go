@@ -36,3 +36,39 @@ func GetTeacherByID(id int64) (models.Teacher, error) {
 
 	return teacher, nil
 }
+
+func GetTeachers() ([]models.Teacher, error) {
+	db = db_conections.NewPostgres01()
+	query := `
+	SELECT *
+	FROM teachers`
+
+	rows, err := db.Query(query)
+	if err != nil {
+		return []models.Teacher{}, err
+	}
+	defer rows.Close()
+
+	var (
+		teachers []models.Teacher
+		teacher  models.Teacher
+		id       int
+	)
+	for rows.Next() {
+
+		err := rows.Scan(&id, &teacher.Name, &teacher.LastName, &teacher.Email, &teacher.Password)
+		if err != nil {
+			return []models.Teacher{}, err
+		}
+		teachers = append(teachers, teacher)
+
+		if err := rows.Err(); err != nil {
+			return []models.Teacher{}, err
+		}
+	}
+
+	fmt.Printf("%+v", teachers)
+
+	return teachers, nil
+
+}

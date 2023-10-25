@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"Education-System-Go/database"
+	"Education-System-Go/models"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"strconv"
@@ -22,4 +23,21 @@ func HandleGetTeacher(c *fiber.Ctx) error {
 	}
 
 	return err
+}
+
+func HandleGetTeachers(c *fiber.Ctx) error {
+	var students []models.Teacher
+
+	students, err := database.GetTeachers()
+	if err != nil {
+		return err
+	}
+
+	err = c.JSON(students)
+	if err != nil {
+		return err
+	}
+
+	return err
+
 }

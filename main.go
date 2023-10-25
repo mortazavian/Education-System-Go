@@ -15,9 +15,13 @@ func main() {
 
 	app := fiber.New()
 
+	// Student Based APIs
 	app.Get("/student/:id", handlers.HandleGetStudent)
-	app.Get("/teacher/:id", handlers.HandleGetTeacher)
 	app.Get("/student", handlers.HandleGetStudents)
+
+	// Teacher Based APIs
+	app.Get("/teacher/:id", handlers.HandleGetTeacher)
+	app.Get("/teacher", handlers.HandleGetTeachers)
 
 	err := app.Listen(":8000")
 	if err != nil {
