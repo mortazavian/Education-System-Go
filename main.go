@@ -17,6 +17,7 @@ func main() {
 	app.Get("/student/:id", handlers.HandleGetStudent)
 	app.Get("/student", handlers.HandleGetStudents)
 	app.Get("/student-of/:id", handlers.HandleGetTeacherOfAStudent)
+	app.Put("/student", handlers.HandleputStudent)
 
 	// Teacher Based APIs
 	app.Get("/teacher/:id", handlers.HandleGetTeacher)

@@ -56,6 +56,9 @@ func HandleGetTeacherOfAStudent(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
+}
+
+func HandleputStudent(c *fiber.Ctx) error {
+
 }
