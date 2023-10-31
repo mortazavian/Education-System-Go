@@ -59,6 +59,20 @@ func HandleGetTeacherOfAStudent(c *fiber.Ctx) error {
 	return nil
 }
 
-func HandleputStudent(c *fiber.Ctx) error {
+func HandlePostStudent(c *fiber.Ctx) error {
+	var student models.Student
+	if err := c.BodyParser(&student); err != nil {
+		return err
+	}
+
+	if errors := student.Validate(); len(errors) > 0 {
+		return c.JSON(errors)
+	}
+
+	insertedUser, err := database.PostStudent(student)
+	if err != nil {
+		return err
+	}
+	return c.JSON(insertedUser)
 
 }
