@@ -117,3 +117,50 @@ func PostTeacher(teacher models.Teacher) (models.Teacher, error) {
 	}
 	return teacher, nil
 }
+
+func PutTeacher(id int, teacher models.Teacher) (models.Teacher, error) {
+	db = db_conections.NewPostgres01()
+	getTheTeacherQuery := `Select * from teachers where id = $1`
+	rows, err := db.Query(getTheTeacherQuery, id)
+	if err != nil {
+		return models.Teacher{}, err
+	}
+	var teacherToUpdate models.Teacher
+	for rows.Next() {
+
+		err := rows.Scan(&id, &teacherToUpdate.Name, &teacherToUpdate.LastName, &teacherToUpdate.Email, &teacherToUpdate.Password)
+		if err != nil {
+			return models.Teacher{}, err
+		}
+	}
+
+	UpdateTeacherInformation(&teacherToUpdate, teacher)
+
+	fmt.Printf("%+v", teacherToUpdate)
+
+	putTeacherQuery := "update teachers set name = $1, last_name = $2, email = $3,password = $4 where id = $5"
+
+	_, err = db.Exec(putTeacherQuery, teacherToUpdate.Name, teacherToUpdate.LastName, teacherToUpdate.Email, teacherToUpdate.Password, id)
+	if err != nil {
+		return models.Teacher{}, err
+	}
+
+	fmt.Printf("%+v", teacherToUpdate)
+
+	return teacherToUpdate, err
+}
+
+func UpdateTeacherInformation(oldTeacher *models.Teacher, newTeacher models.Teacher) {
+	if newTeacher.Name != "" {
+		oldTeacher.Name = newTeacher.Name
+	}
+	if newTeacher.LastName != "" {
+		oldTeacher.LastName = newTeacher.LastName
+	}
+	if newTeacher.Email != "" {
+		oldTeacher.Email = newTeacher.Email
+	}
+	if newTeacher.Password != "" {
+		oldTeacher.Password = newTeacher.Password
+	}
+}
