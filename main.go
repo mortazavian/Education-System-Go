@@ -23,6 +23,7 @@ func main() {
 	app.Get("/teacher/:id", handlers.HandleGetTeacher)
 	app.Get("/teacher", handlers.HandleGetTeachers)
 	app.Get("/teacher-of/:id", handlers.HandleGetStudentsByTeacherId)
+	app.Post("teacher", handlers.HandlePostTeacher)
 
 	err := app.Listen(":8000")
 	if err != nil {

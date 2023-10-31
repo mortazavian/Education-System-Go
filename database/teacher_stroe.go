@@ -107,3 +107,13 @@ func GetStudentsByTeacherId(id int64) ([]models.Student, error) {
 	return students, nil
 
 }
+
+func PostTeacher(teacher models.Teacher) (models.Teacher, error) {
+	db = db_conections.NewPostgres01()
+	teacherInsertQuery := "Insert INTO teachers (name, last_name, email, password)  values ($1, $2, $3, $4) ;"
+	_, err := db.Exec(teacherInsertQuery, teacher.Name, teacher.LastName, teacher.Email, teacher.Password)
+	if err != nil {
+		return models.Teacher{}, err
+	}
+	return teacher, nil
+}

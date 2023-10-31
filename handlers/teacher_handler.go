@@ -58,3 +58,22 @@ func HandleGetStudentsByTeacherId(c *fiber.Ctx) error {
 	return nil
 
 }
+
+func HandlePostTeacher(c *fiber.Ctx) error {
+	var teacher models.Teacher
+	if err := c.BodyParser(&teacher); err != nil {
+		return err
+	}
+
+	fmt.Printf("%+v", teacher)
+
+	if errors := teacher.Validate(); len(errors) > 0 {
+		return c.JSON(errors)
+	}
+
+	insertedTeacher, err := database.PostTeacher(teacher)
+	if err != nil {
+		return err
+	}
+	return c.JSON(insertedTeacher)
+}
