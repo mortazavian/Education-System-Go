@@ -74,5 +74,25 @@ func HandlePostStudent(c *fiber.Ctx) error {
 		return err
 	}
 	return c.JSON(insertedUser)
+}
 
+func HandlePutStudent(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return err
+	}
+	var student models.Student
+	err = c.BodyParser(&student)
+	if err != nil {
+		return err
+	}
+
+	updatedStudent, err := database.PutStudent(id, student)
+	if err != nil {
+		return err
+	}
+
+	_ = updatedStudent
+
+	return nil
 }

@@ -2,7 +2,10 @@ package main
 
 // get all student/ teachers --> DONE
 // return student of a teacher --> DONE
-// return teacher of a student
+// return teacher of a student --> DONE
+// Update user information
+// Login
+// Reset password
 
 import (
 	"Education-System-Go/handlers"
@@ -18,6 +21,7 @@ func main() {
 	app.Get("/student", handlers.HandleGetStudents)
 	app.Get("/student-of/:id", handlers.HandleGetTeacherOfAStudent)
 	app.Post("/student", handlers.HandlePostStudent)
+	app.Put("/student/:id", handlers.HandlePutStudent)
 
 	// Teacher Based APIs
 	app.Get("/teacher/:id", handlers.HandleGetTeacher)
